@@ -44,6 +44,7 @@ $title ='Products';
           ?>
           <tbody>
           <?php
+          //todo: add search
             foreach($products as $product){
           ?>
             <tr>
