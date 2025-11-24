@@ -15,6 +15,12 @@
             </a>
           </li>
           
+          <li class="nav-item">
+            <a class="nav-link <?=$title=='Orders'?'active':''?>" href="orders.php">
+              <span data-feather="shopping-cart"></span>
+              Orders
+            </a>
+          </li>
         </ul>
       </div>
     </nav>

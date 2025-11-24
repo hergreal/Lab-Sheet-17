@@ -1,14 +1,25 @@
 <?php
-
+session_start();
 $title ='Products';
 include 'functions/products.php';
-            
+
+if(isset($_POST['delete'])){
+  $pcode = $_POST['pcode'];
+  if(deleteProduct($pcode)){
+    $_SESSION['action']='delete';
+    $_SESSION['msg']='Product deleted successfully!';
+    header('location:products.php'); //refresh to preven re-submit
+    exit;
+  }
+}
+
 if(isset($_POST['search'])){
   $search = $_POST['txtsearch'];
   $products = findProducts($search);
 }else{
   $products = getAllProducts();
 }
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -45,8 +56,17 @@ if(isset($_POST['search'])){
       </div>
         
       </form>
-      <a href="product-form.html" class="btn btn-success text-white mb-3 float-right"><i class="fas fa-plus-square"></i> New Product</a>
-      
+      <a href="product-form.php" class="btn btn-success text-white mb-3 float-right"><i class="fas fa-plus-square"></i> New Product</a>
+      <?php
+       if(isset($_SESSION['action'])){
+      ?>
+      <div class="alert alert-success mt-3 col-6">
+        <?=$_SESSION['msg']?>
+      </div>
+      <?php
+        unset($_SESSION['action']);
+       }
+      ?>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
@@ -78,9 +98,12 @@ if(isset($_POST['search'])){
                   <label class="btn btn-primary btn-sm">
                     <a href="" class="text-white"><i class="fas fa-pen"></i></a>
                   </label>
-                  <label class="btn btn-danger btn-sm">
-                    <a href="" class="text-white"><i class="fas fa-trash"></i></a>
-                  </label>
+                  <form method="post">
+                    <input type="hidden" name="pcode" value="<?=$product['p_code']?>">
+                    <button class="btn btn-danger btn-sm" name="delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </form>
                 </div>
               </td>
             </tr>

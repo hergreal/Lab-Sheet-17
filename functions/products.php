@@ -28,3 +28,27 @@ function findProducts($find){
     return $data;
 }
 
+function deleteProduct($pcode){
+    $conn = Connect();
+
+    $query = "DELETE FROM product WHERE p_code='$pcode'";
+    $result = $conn->query($query); 
+    $conn->close();
+    if($result) return true; 
+    
+    return false;
+}
+function addProduct($pcode, $desc, $price, $stocks){
+    $conn = Connect();
+
+    $query = "INSERT INTO product
+                (p_code, p_descript, p_qoh, p_price, v_code)
+                VALUES
+                ('$pcode','$desc', $price,$stocks, 24288)";
+    $result = $conn->query($query); 
+    $conn->close();
+    if($result) return true; 
+    
+    return false;
+}
+
